@@ -4,9 +4,9 @@ Interface web do **Insulinet**, uma aplicação para controle de estoque de insu
 
 ## Produção
 
-- Aplicação: https://insulinet-frontend-production.up.railway.app
-- API: https://insulinet-backend-production.up.railway.app
-- Documentação da API: https://insulinet-backend-production.up.railway.app/docs
+- Aplicação: https://frontend-insulinet-mock.up.railway.app
+- API: https://backend-insulinet-mock.up.railway.app
+- Documentação da API: https://backend-insulinet-mock.up.railway.app/docs
 
 ## Tecnologias
 
