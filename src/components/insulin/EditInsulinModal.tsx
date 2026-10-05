@@ -11,11 +11,17 @@ import {
   updateInsulin,
 } from "../../services/insulinService";
 
+import type {
+  InsulinType,
+} from "../../types/insulin";
+
 
 type Props = {
   insulinId: number;
 
   initialName: string;
+
+  initialInsulinType: InsulinType | null;
 
   initialConcentrationUnitsPerMl: string;
 
@@ -31,9 +37,18 @@ type Props = {
 };
 
 
+const INSULIN_TYPES: InsulinType[] = [
+  "Glargina",
+  "Lispro",
+  "NPH",
+  "Regular",
+];
+
+
 export default function EditInsulinModal({
   insulinId,
   initialName,
+  initialInsulinType,
   initialConcentrationUnitsPerMl,
   initialContainerVolumeMl,
   initialOpenValidityDays,
@@ -49,6 +64,12 @@ export default function EditInsulinModal({
     initialName
   );
 
+  const [
+    insulinType,
+    setInsulinType,
+  ] = useState<InsulinType | "">(
+    initialInsulinType ?? ""
+  );
 
   const [
     concentration,
@@ -57,14 +78,12 @@ export default function EditInsulinModal({
     initialConcentrationUnitsPerMl
   );
 
-
   const [
     volume,
     setVolume,
   ] = useState(
     initialContainerVolumeMl
   );
-
 
   const [
     openValidityDays,
@@ -73,7 +92,6 @@ export default function EditInsulinModal({
     String(initialOpenValidityDays)
   );
 
-
   const [
     active,
     setActive,
@@ -81,12 +99,10 @@ export default function EditInsulinModal({
     initialActive
   );
 
-
   const [
     error,
     setError,
   ] = useState("");
-
 
   const [
     loading,
@@ -103,7 +119,6 @@ export default function EditInsulinModal({
       const numericVolume =
         Number(volume);
 
-
       if (
         Number.isNaN(
           numericConcentration
@@ -116,7 +131,6 @@ export default function EditInsulinModal({
       ) {
         return null;
       }
-
 
       return (
         numericConcentration *
@@ -151,18 +165,14 @@ export default function EditInsulinModal({
 
     setError("");
 
-
     const cleanName =
       name.trim();
-
 
     const numericConcentration =
       Number(concentration);
 
-
     const numericVolume =
       Number(volume);
-
 
     const numericOpenValidityDays =
       Number(openValidityDays);
@@ -172,6 +182,16 @@ export default function EditInsulinModal({
 
       setError(
         "Informe o nome da insulina."
+      );
+
+      return;
+    }
+
+
+    if (!insulinType) {
+
+      setError(
+        "Selecione o tipo da insulina."
       );
 
       return;
@@ -235,6 +255,9 @@ export default function EditInsulinModal({
           name:
             cleanName,
 
+          insulin_type:
+            insulinType,
+
           concentration_units_per_ml:
             numericConcentration,
 
@@ -289,9 +312,6 @@ export default function EditInsulinModal({
         }
       >
 
-
-        
-
         <div className="modal-header">
 
           <div>
@@ -327,9 +347,6 @@ export default function EditInsulinModal({
           }
         >
 
-
-          
-
           <label>
 
             Nome da insulina
@@ -355,10 +372,57 @@ export default function EditInsulinModal({
           </label>
 
 
-          
+          <label>
+
+            Tipo da insulina
+
+            <select
+              value={
+                insulinType
+              }
+              onChange={(event) =>
+                setInsulinType(event.target.value as InsulinType)
+              }
+              required
+            >
+
+              <option value="">
+                Selecione o tipo
+              </option>
+
+              {INSULIN_TYPES.map(
+                (type) => (
+
+                  <option
+                    key={type}
+                    value={type}
+                  >
+                    {type}
+                  </option>
+
+                )
+              )}
+
+            </select>
+
+          </label>
+
+
+          {!initialInsulinType && (
+
+            <div className="form-hint">
+
+              Esta insulina foi cadastrada antes
+              da integração com as UAPS.
+              Selecione o tipo para habilitar
+              a busca de reposição.
+
+            </div>
+
+          )}
+
 
           <div className="insulin-form-grid">
-
 
             <label>
 
@@ -448,8 +512,6 @@ export default function EditInsulinModal({
           </label>
 
 
-
-
           <div className="insulin-calculation-preview">
 
             <div>
@@ -488,8 +550,6 @@ export default function EditInsulinModal({
           </div>
 
 
-          
-
           {packagingChanged && (
 
             <div className="edit-insulin-warning">
@@ -510,8 +570,6 @@ export default function EditInsulinModal({
 
           )}
 
-
-          
 
           <div className="insulin-status-section">
 
@@ -570,8 +628,6 @@ export default function EditInsulinModal({
           )}
 
 
-          
-
           {error && (
 
             <div className="error-message">
@@ -580,8 +636,6 @@ export default function EditInsulinModal({
 
           )}
 
-
-          
 
           <div className="modal-actions">
 

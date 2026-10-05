@@ -11,11 +11,23 @@ import {
   createInsulin,
 } from "../../services/insulinService";
 
+import type {
+  InsulinType,
+} from "../../types/insulin";
+
 
 type Props = {
   onClose: () => void;
   onSuccess: () => void;
 };
+
+
+const INSULIN_TYPES: InsulinType[] = [
+  "Glargina",
+  "Lispro",
+  "NPH",
+  "Regular",
+];
 
 
 export default function AddInsulinModal({
@@ -28,42 +40,35 @@ export default function AddInsulinModal({
     setName,
   ] = useState("");
 
+  const [
+    insulinType,
+    setInsulinType,
+  ] = useState<InsulinType | "">("");
 
   const [
     concentration,
     setConcentration,
   ] = useState("");
 
-
   const [
     volume,
     setVolume,
   ] = useState("");
-
 
   const [
     openValidityDays,
     setOpenValidityDays,
   ] = useState("28");
 
-
   const [
     error,
     setError,
   ] = useState("");
 
-
   const [
     loading,
     setLoading,
   ] = useState(false);
-
-
-  
-
-
-
-
 
 
   const unitsPerContainer =
@@ -74,7 +79,6 @@ export default function AddInsulinModal({
 
       const numericVolume =
         Number(volume);
-
 
       if (
         Number.isNaN(
@@ -88,7 +92,6 @@ export default function AddInsulinModal({
       ) {
         return null;
       }
-
 
       return (
         numericConcentration *
@@ -109,24 +112,17 @@ export default function AddInsulinModal({
 
     setError("");
 
-
     const cleanName =
       name.trim();
-
 
     const numericConcentration =
       Number(concentration);
 
-
     const numericVolume =
       Number(volume);
 
-
     const numericOpenValidityDays =
       Number(openValidityDays);
-
-
-
 
 
     if (!cleanName) {
@@ -139,7 +135,14 @@ export default function AddInsulinModal({
     }
 
 
-    
+    if (!insulinType) {
+
+      setError(
+        "Selecione o tipo da insulina."
+      );
+
+      return;
+    }
 
 
     if (
@@ -155,9 +158,6 @@ export default function AddInsulinModal({
 
       return;
     }
-
-
-    
 
 
     if (
@@ -200,6 +200,9 @@ export default function AddInsulinModal({
         name:
           cleanName,
 
+        insulin_type:
+          insulinType,
+
         concentration_units_per_ml:
           numericConcentration,
 
@@ -209,10 +212,6 @@ export default function AddInsulinModal({
         open_validity_days:
           numericOpenValidityDays,
       });
-
-
-      
-
 
 
       onSuccess();
@@ -254,10 +253,6 @@ export default function AddInsulinModal({
         }
       >
 
-        
-        
-        
-
         <div className="modal-header">
 
           <div>
@@ -294,10 +289,6 @@ export default function AddInsulinModal({
           }
         >
 
-          
-          
-          
-
           <label>
 
             Nome da insulina
@@ -324,9 +315,49 @@ export default function AddInsulinModal({
           </label>
 
 
-          
-          
-          
+          <label>
+
+            Tipo da insulina
+
+            <select
+                onChange={(event) =>
+                  setInsulinType(
+                    event.target.value as InsulinType
+                  )
+                }
+            required
+            >
+
+              <option value="">
+                Selecione o tipo
+              </option>
+
+              {INSULIN_TYPES.map(
+                (type) => (
+
+                  <option
+                    key={type}
+                    value={type}
+                  >
+                    {type}
+                  </option>
+
+                )
+              )}
+
+            </select>
+
+          </label>
+
+
+          <div className="form-hint">
+
+            O tipo é utilizado para localizar
+            UAPS com disponibilidade compatível
+            para reposição.
+
+          </div>
+
 
           <div className="insulin-form-grid">
 
@@ -420,17 +451,16 @@ export default function AddInsulinModal({
 
           </label>
 
+
           <div className="form-hint">
 
             Depois de aberta, a caneta/frasco
             deixa de ser segura para uso após
             esse prazo, mesmo com insulina
             restante. Consulte a bula do
-            fabricante (geralmente entre 28
-            e 56 dias).
+            fabricante.
 
           </div>
-
 
 
           <div className="insulin-calculation-preview">
@@ -510,18 +540,16 @@ export default function AddInsulinModal({
             O estoque não será adicionado
             automaticamente. Depois do cadastro,
             utilize o botão
+
             <strong>
               {" "}Adicionar estoque
             </strong>
+
             {" "}para informar quantos recipientes
             você possui.
 
           </div>
 
-
-          
-          
-          
 
           {error && (
 
@@ -531,10 +559,6 @@ export default function AddInsulinModal({
 
           )}
 
-
-          
-          
-          
 
           <div className="modal-actions">
 

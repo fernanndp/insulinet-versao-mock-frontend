@@ -1,10 +1,24 @@
-export type StockAlertLevel = "ok" | "low" | "critical" | "unknown";
+export type StockAlertLevel =
+  | "ok"
+  | "low"
+  | "critical"
+  | "unknown";
 
-export type ContainerAlertLevel = "ok" | "expiring_soon" | "expired";
+export type ContainerAlertLevel =
+  | "ok"
+  | "expiring_soon"
+  | "expired";
+
+export type InsulinType =
+  | "Regular"
+  | "NPH"
+  | "Glargina"
+  | "Lispro";
 
 export type Insulin = {
   id: number;
   name: string;
+  insulin_type: InsulinType | null;
   concentration_units_per_ml: string;
   container_volume_ml: string;
   open_validity_days: number;
@@ -33,11 +47,13 @@ export type InsulinWithSummary = {
 
 export type CreateInsulinPayload = {
   name: string;
+  insulin_type: InsulinType;
   concentration_units_per_ml: number;
   container_volume_ml: number;
   open_validity_days: number;
 };
 
-export type UpdateInsulinPayload = CreateInsulinPayload & {
-  active: boolean;
-};
+export type UpdateInsulinPayload =
+  CreateInsulinPayload & {
+    active: boolean;
+  };

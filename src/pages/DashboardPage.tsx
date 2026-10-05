@@ -4,6 +4,7 @@ import {
   useState,
 } from "react";
 
+
 import {
   Activity,
   AlertTriangle,
@@ -13,6 +14,7 @@ import {
   LogOut,
   PackagePlus,
   Plus,
+  Search,
   Settings2,
   SlidersHorizontal,
   Syringe,
@@ -42,6 +44,9 @@ import AdjustStockModal
 
 import EditInsulinModal
   from "../components/insulin/EditInsulinModal";
+
+import UapsAvailabilityModal
+  from "../components/uaps/UapsAvailabilityModal";
 
 import {
   ApiError,
@@ -165,6 +170,13 @@ export default function DashboardPage() {
       null
     );
 
+  const [
+    replenishmentInsulin,
+    setReplenishmentInsulin,
+  ] =
+    useState<Insulin | null>(
+      null
+    );
 
   const [
     addInsulinOpen,
@@ -1162,7 +1174,43 @@ export default function DashboardPage() {
 
             </button>
 
+          <button
+          type="button"
+          className="
+            secondary-button
+            replenishment-button
+            full-card-action
+          "
+          onClick={() => {
 
+            if (
+              !insulin.insulin_type
+            ) {
+
+              setEditInsulin(
+                insulin
+              );
+
+              return;
+            }
+
+
+            setReplenishmentInsulin(
+              insulin
+            );
+
+          }}
+        >
+
+          <Search
+            size={15}
+          />
+
+          {insulin.insulin_type
+            ? "Encontrar reposição"
+            : "Definir tipo para reposição"}
+
+        </button>
             
 
             <button
@@ -1835,7 +1883,28 @@ export default function DashboardPage() {
 
       )}
 
+  {replenishmentInsulin &&
+  replenishmentInsulin.insulin_type && (
 
+  <UapsAvailabilityModal
+
+        insulinName={
+          replenishmentInsulin.name
+        }
+
+        insulinType={
+          replenishmentInsulin.insulin_type
+        }
+
+        onClose={() =>
+          setReplenishmentInsulin(
+            null
+          )
+        }
+
+      />
+
+    )}
 
 
 
@@ -1919,6 +1988,10 @@ export default function DashboardPage() {
 
           initialName={
             editInsulin.name
+          }
+
+          initialInsulinType={
+            editInsulin.insulin_type
           }
 
           initialConcentrationUnitsPerMl={
