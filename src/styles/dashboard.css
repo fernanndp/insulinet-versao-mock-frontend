@@ -798,6 +798,28 @@
   grid-column: 1 / -1;
 }
 
+.replenishment-button.stock-alert-critical {
+  border-color: var(--color-danger-dark);
+  background: var(--color-danger-soft);
+  color: var(--color-danger-dark);
+}
+
+.replenishment-button.stock-alert-critical:hover:not(:disabled) {
+  border-color: var(--color-danger-dark);
+  background: var(--color-danger-soft);
+}
+
+.replenishment-button.stock-alert-low {
+  border-color: #92400e;
+  background: var(--color-warning-soft);
+  color: #92400e;
+}
+
+.replenishment-button.stock-alert-low:hover:not(:disabled) {
+  border-color: #92400e;
+  background: var(--color-warning-soft);
+}
+
 .inactive-card-actions {
   display: flex;
   flex-direction: column;

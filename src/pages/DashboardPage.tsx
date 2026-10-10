@@ -1176,11 +1176,9 @@ export default function DashboardPage() {
 
           <button
           type="button"
-          className="
-            secondary-button
-            replenishment-button
-            full-card-action
-          "
+          className={
+            `secondary-button replenishment-button full-card-action stock-alert-${summary.stock_alert_level}`
+          }
           onClick={() => {
 
             if (
@@ -1202,9 +1200,21 @@ export default function DashboardPage() {
           }}
         >
 
-          <Search
-            size={15}
-          />
+          {insulin.insulin_type &&
+          (summary.stock_alert_level === "critical" ||
+            summary.stock_alert_level === "low") ? (
+
+            <AlertTriangle
+              size={15}
+            />
+
+          ) : (
+
+            <Search
+              size={15}
+            />
+
+          )}
 
           {insulin.insulin_type
             ? "Encontrar reposição"
