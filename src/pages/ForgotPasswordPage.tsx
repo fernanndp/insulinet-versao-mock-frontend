@@ -1,6 +1,9 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link } from "react-router";
+import { Mail } from "lucide-react";
+
+import IconInput from "../components/ui/IconInput";
 
 import { requestPasswordReset } from "../services/authService";
 
@@ -45,7 +48,8 @@ export default function ForgotPasswordPage() {
         <form onSubmit={handleSubmit}>
           <label>
             E-mail
-            <input
+            <IconInput
+              icon={Mail}
               type="email"
               value={email}
               onChange={(event) =>

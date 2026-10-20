@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import type { FormEvent } from "react";
+import { Pencil } from "lucide-react";
 
 import {
   updateDose,
@@ -272,7 +273,8 @@ export default function EditDoseModal({
           <div>
 
             <h2>
-              Editar aplicação
+            <Pencil size={20} aria-hidden="true" />
+            Editar aplicação
             </h2>
 
             <p>

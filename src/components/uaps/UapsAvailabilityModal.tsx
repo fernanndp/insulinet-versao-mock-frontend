@@ -7,6 +7,7 @@ import {
 
 import {
   MapPin,
+  MapPinned,
   Navigation,
   PackageSearch,
   RefreshCw,
@@ -310,6 +311,7 @@ export default function UapsAvailabilityModal({
           <div>
 
             <h2>
+              <MapPinned size={20} aria-hidden="true" />
               Encontrar reposição
             </h2>
 

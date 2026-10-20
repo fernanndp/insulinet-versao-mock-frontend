@@ -1,36 +1,84 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
-
 * {
   box-sizing: border-box;
 }
 
+/* ==========================================================================
+   Design tokens
+   Layer 1 - primitives (raw values, never used directly in components)
+   Layer 2 - semantic (purpose aliases, what components reference)
+   Layer 3 - component (control sizing, focus ring)
+   ========================================================================== */
+
 :root {
-  /* Color tokens - clinical, calm, high-contrast */
-  --color-primary: #0284c7;
-  --color-primary-dark: #026aa7;
-  --color-primary-soft: #e0f2fe;
+  /* ---- Layer 1: primitives ---- */
 
-  --color-secondary: #0891b2;
-  --color-secondary-soft: #ecfeff;
+  /* Warm paper neutrals */
+  --paper-0: #ffffff;
+  --paper-50: #f8f6f1;
+  --paper-100: #f2efe8;
+  --paper-200: #e6e2d7;
+  --paper-300: #d6d1c3;
+  --paper-400: #bdb8a8;
+  --stone-500: #8f8b7e;
 
-  --color-danger: #dc2626;
-  --color-danger-dark: #b91c1c;
-  --color-danger-soft: #fef2f2;
+  /* Ink (text) */
+  --ink-500: #67665e;
+  --ink-700: #46453f;
+  --ink-900: #1a1d1c;
 
-  --color-warning: #d97706;
-  --color-warning-soft: #fffbeb;
+  /* Petrol - the single brand colour */
+  --petrol-50: #e6f0f2;
+  --petrol-100: #cde1e6;
+  --petrol-600: #0b5a6b;
+  --petrol-700: #084654;
+  --petrol-800: #06353f;
 
-  --color-success: #16a34a;
-  --color-success-dark: #15803d;
-  --color-success-soft: #ecfdf3;
+  /* Status */
+  --green-fg: #1d6a38;
+  --green-bg: #e9f4ec;
+  --green-line: #b7d8c0;
+  --green-solid: #2b7d48;
 
-  --app-bg: #f4f8fb;
-  --surface: #ffffff;
-  --surface-soft: #f8fafc;
+  --amber-fg: #85480a;
+  --amber-bg: #fbf0dc;
+  --amber-line: #e8cf9a;
+  --amber-solid: #b86a0c;
 
-  --text-primary: #0f172a;
-  --text-secondary: #64748b;
-  --text-tertiary: #94a3b8;
+  --red-fg: #a3231a;
+  --red-bg: #fbeae7;
+  --red-line: #efc1ba;
+  --red-solid: #b3261e;
+
+  /* ---- Layer 2: semantic ---- */
+  --color-primary: var(--petrol-600);
+  --color-primary-dark: var(--petrol-700);
+  --color-primary-soft: var(--petrol-50);
+
+  --color-secondary: var(--ink-500);
+  --color-secondary-soft: var(--paper-100);
+
+  --color-danger: var(--red-solid);
+  --color-danger-dark: var(--red-fg);
+  --color-danger-soft: var(--red-bg);
+  --color-danger-line: var(--red-line);
+
+  --color-warning: var(--amber-solid);
+  --color-warning-dark: var(--amber-fg);
+  --color-warning-soft: var(--amber-bg);
+  --color-warning-line: var(--amber-line);
+
+  --color-success: var(--green-solid);
+  --color-success-dark: var(--green-fg);
+  --color-success-soft: var(--green-bg);
+  --color-success-line: var(--green-line);
+
+  --app-bg: var(--paper-100);
+  --surface: var(--paper-0);
+  --surface-soft: var(--paper-50);
+
+  --text-primary: var(--ink-900);
+  --text-secondary: var(--ink-700);
+  --text-tertiary: var(--ink-500);
 
   --primary: var(--color-primary);
   --primary-dark: var(--color-primary-dark);
@@ -39,10 +87,12 @@
   --success: var(--color-success-dark);
   --success-soft: var(--color-success-soft);
 
-  --border: #e2e8f0;
-  --border-hover: #cbd5e1;
+  --border: var(--paper-200);
+  --border-hover: var(--paper-300);
+  --border-strong: var(--paper-400);
+  --border-control: var(--stone-500);
 
-  /* Spacing scale (8px grid) */
+  /* Spacing scale (4px grid) */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -53,28 +103,38 @@
   --space-10: 40px;
   --space-12: 48px;
 
-  /* Radius scale */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
+  /* Radius scale - deliberately tight */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 14px;
   --radius-full: 999px;
 
-  /* Shadow scale */
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
-  --shadow-card:
-    0 1px 2px rgba(15, 23, 42, 0.03),
-    0 8px 24px rgba(15, 23, 42, 0.045);
-  --shadow-hover:
-    0 4px 10px rgba(15, 23, 42, 0.04),
-    0 16px 32px rgba(15, 23, 42, 0.07);
-  --shadow-focus: 0 0 0 3px rgba(2, 132, 199, 0.14);
+  /* Elevation - borders do the work, shadow only on overlays */
+  --shadow-sm: none;
+  --shadow-card: none;
+  --shadow-hover: none;
+  --shadow-overlay: 0 24px 60px -20px rgba(26, 29, 28, 0.45);
+
+  /* Type */
+  --fw-regular: 400;
+  --fw-bold: 700;
+
+  /* ---- Layer 3: component ---- */
+  --control-height: 44px;
+  --focus-ring: 0 0 0 3px rgba(11, 90, 107, 0.28);
+
+  /* Motion - short, decisive, no bounce. Pick the duration by distance. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms;
+  --dur-base: 220ms;
+  --dur-slow: 360ms;
 
   font-family:
-    Inter,
+    "Atkinson Hyperlegible Next",
     system-ui,
     -apple-system,
-    BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
 
@@ -85,6 +145,7 @@
   line-height: 1.5;
 
   -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
 }
 
 body {
@@ -97,8 +158,10 @@ h1,
 h2,
 h3,
 h4 {
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-weight: var(--fw-bold);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
 }
 
 button,
@@ -114,11 +177,14 @@ button {
 
 a {
   color: var(--color-primary);
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
 }
 
 a:hover {
-  text-decoration: underline;
+  color: var(--color-primary-dark);
+  text-decoration-thickness: 2px;
 }
 
 :focus-visible {
@@ -126,116 +192,128 @@ a:hover {
   outline-offset: 2px;
 }
 
+/* One stroke weight for every icon keeps the set looking drawn together */
+svg.lucide {
+  stroke-width: 1.75;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
     scroll-behavior: auto !important;
   }
 }
 
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
 .primary-button {
   width: 100%;
-
-  min-height: 46px;
-  padding: 12px 20px;
+  min-height: var(--control-height);
+  padding: 10px 20px;
 
   border: 1px solid var(--color-primary);
   border-radius: var(--radius-md);
 
   background: var(--color-primary);
-  color: white;
-
-  cursor: pointer;
+  color: #fff;
 
   font-size: 15px;
-  font-weight: 600;
-
-  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.18);
+  font-weight: var(--fw-bold);
 
   transition:
-    background 0.15s ease,
-    border-color 0.15s ease,
-    box-shadow 0.15s ease,
-    transform 0.1s ease;
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
 }
 
 .primary-button:hover:not(:disabled) {
   background: var(--color-primary-dark);
   border-color: var(--color-primary-dark);
-  box-shadow: 0 8px 20px rgba(2, 132, 199, 0.24);
-  transform: translateY(-1px);
 }
 
 .primary-button:active:not(:disabled) {
-  transform: translateY(0);
+  background: var(--petrol-800);
+  border-color: var(--petrol-800);
+  transform: scale(0.985);
 }
 
 .primary-button:disabled {
-  opacity: 0.6;
+  border-color: var(--paper-300);
+  background: var(--paper-200);
+  color: var(--text-tertiary);
   cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
 }
 
 .secondary-button {
-  min-height: 46px;
-  padding: 11px 18px;
+  min-height: var(--control-height);
+  padding: 10px 16px;
 
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: var(--radius-md);
 
   background: var(--surface);
   color: var(--text-primary);
 
-  cursor: pointer;
-
   font-size: 15px;
-  font-weight: 600;
+  font-weight: var(--fw-bold);
 
   transition:
-    border-color 0.15s ease,
-    background 0.15s ease,
-    color 0.15s ease;
+    border-color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
 }
 
 .secondary-button:hover:not(:disabled) {
-  border-color: var(--border-hover);
-  background: var(--surface-soft);
+  border-color: var(--border-control);
+  background: var(--paper-50);
+}
+
+.secondary-button:active:not(:disabled) {
+  background: var(--paper-100);
+  transform: scale(0.985);
 }
 
 .secondary-button:disabled {
-  opacity: 0.6;
+  color: var(--text-tertiary);
   cursor: not-allowed;
 }
 
-.error-message {
-  padding: 12px 14px;
+/* ==========================================================================
+   Messages
+   ========================================================================== */
 
-  border: 1px solid #fecaca;
+.error-message,
+.success-message {
+  padding: 10px 14px;
+
+  border: 1px solid;
+  border-left-width: 4px;
   border-radius: var(--radius-sm);
-
-  background: var(--color-danger-soft);
-  color: var(--color-danger-dark);
 
   font-size: 14px;
   line-height: 1.5;
 }
 
+.error-message {
+  border-color: var(--color-danger-line);
+  border-left-color: var(--color-danger);
+  background: var(--color-danger-soft);
+  color: var(--color-danger-dark);
+}
+
 .success-message {
-  padding: 12px 14px;
-
-  border: 1px solid #bbf7d0;
-  border-radius: var(--radius-sm);
-
+  border-color: var(--color-success-line);
+  border-left-color: var(--color-success);
   background: var(--color-success-soft);
   color: var(--color-success-dark);
-
-  font-size: 14px;
-  line-height: 1.5;
 }
 
 .compact-button {
@@ -243,13 +321,17 @@ a:hover {
   white-space: nowrap;
 }
 
-.loading-page {
-  min-height: 100vh;
+.visually-hidden {
+  position: absolute;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
 
-  color: var(--text-secondary);
-  font-size: 15px;
+  border: 0;
+  overflow: hidden;
+
+  clip-path: inset(50%);
+  white-space: nowrap;
 }

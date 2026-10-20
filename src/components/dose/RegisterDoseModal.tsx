@@ -6,6 +6,7 @@ import {
 import type {
   FormEvent,
 } from "react";
+import { Syringe } from "lucide-react";
 
 import {
   registerDose,
@@ -908,7 +909,8 @@ export default function RegisterDoseModal({
           <div>
 
             <h2>
-              Registrar aplicação
+            <Syringe size={20} aria-hidden="true" />
+            Registrar aplicação
             </h2>
 
             <p>
@@ -1287,10 +1289,10 @@ export default function RegisterDoseModal({
                     <span
                       style={{
                         color:
-                          "#98a2b3",
+                          "var(--text-tertiary)",
 
                         fontSize:
-                          "11px",
+                          "13px",
 
                         fontWeight:
                           400,
@@ -1542,10 +1544,10 @@ export default function RegisterDoseModal({
                       <span
                         style={{
                           color:
-                            "#98a2b3",
+                            "var(--text-tertiary)",
 
                           fontSize:
-                            "11px",
+                            "13px",
 
                           fontWeight:
                             400,

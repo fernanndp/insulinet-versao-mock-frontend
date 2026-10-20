@@ -1,6 +1,9 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router";
+import { Lock, Mail, User } from "lucide-react";
+
+import IconInput from "../components/ui/IconInput";
 
 import { registerUser } from "../services/authService";
 
@@ -51,7 +54,8 @@ export default function RegisterPage() {
         <form onSubmit={handleSubmit}>
           <label>
             Nome
-            <input
+            <IconInput
+              icon={User}
               value={name}
               onChange={(event) =>
                 setName(event.target.value)
@@ -62,7 +66,8 @@ export default function RegisterPage() {
 
           <label>
             E-mail
-            <input
+            <IconInput
+              icon={Mail}
               type="email"
               value={email}
               onChange={(event) =>
@@ -74,7 +79,8 @@ export default function RegisterPage() {
 
           <label>
             Senha
-            <input
+            <IconInput
+              icon={Lock}
               type="password"
               value={password}
               onChange={(event) =>
