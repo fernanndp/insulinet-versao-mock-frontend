@@ -8,16 +8,22 @@ import {
 import {
   Activity,
   AlertTriangle,
+  Archive,
+  CalendarClock,
+  ChevronDown,
+  CircleCheck,
   Clock3,
   History,
   Layers,
   LogOut,
+  OctagonAlert,
   PackagePlus,
   Plus,
   Search,
-  Settings2,
+  Settings,
   SlidersHorizontal,
   Syringe,
+  TriangleAlert,
 } from "lucide-react";
 
 import {
@@ -48,6 +54,12 @@ import EditInsulinModal
 import UapsAvailabilityModal
   from "../components/uaps/UapsAvailabilityModal";
 
+import AnimatedUnits
+  from "../components/ui/AnimatedUnits";
+
+import DashboardSkeleton
+  from "../components/ui/DashboardSkeleton";
+
 import {
   ApiError,
   clearToken,
@@ -70,6 +82,7 @@ import type {
   Insulin,
   InsulinSummary,
   InsulinWithSummary,
+  StockAlertLevel,
 } from "../types/insulin";
 
 import {
@@ -82,6 +95,22 @@ import {
 
 
 
+
+function StockAlertIcon({
+  level,
+}: {
+  level: StockAlertLevel;
+}) {
+  if (level === "critical") {
+    return <OctagonAlert size={15} aria-hidden="true" />;
+  }
+
+  if (level === "low") {
+    return <TriangleAlert size={15} aria-hidden="true" />;
+  }
+
+  return <CircleCheck size={15} aria-hidden="true" />;
+}
 
 export default function DashboardPage() {
 
@@ -635,62 +664,45 @@ export default function DashboardPage() {
 
           <div className="insulin-card-title">
 
-            <span className="insulin-label">
-              INSULINA
-            </span>
-
-
             <h3>
               {insulin.name}
             </h3>
+
+            <p className="insulin-card-meta">
+              {insulin.insulin_type ?? "Tipo não definido"}
+              {" · "}
+              {formatUnits(
+                insulin.concentration_units_per_ml
+              )} U/mL
+              {" · "}
+              {formatUnits(
+                insulin.container_volume_ml
+              )} mL
+            </p>
 
           </div>
 
 
           <div className="insulin-card-header-actions">
 
-
-            
-
-            {insulin.active ? (
-
-              <span className="active-badge">
-
-                <span className="status-dot" />
-
-                Ativa
-
-              </span>
-
-            ) : (
-
+            {!insulin.active && (
               <span className="inactive-badge">
-
                 Inativa
-
               </span>
-
             )}
-
-
-            
 
             <button
               type="button"
               className="manage-insulin-button"
+              aria-label={`Gerenciar ${insulin.name}`}
+              title="Gerenciar"
               onClick={() =>
                 setEditInsulin(
                   insulin
                 )
               }
             >
-
-              <Settings2
-                size={13}
-              />
-
-              Gerenciar
-
+              <Settings size={16} aria-hidden="true" />
             </button>
 
           </div>
@@ -719,14 +731,12 @@ export default function DashboardPage() {
 
             <div className="stock-value">
 
-              <strong>
-
-                {formatUnits(
+              <AnimatedUnits
+                value={
                   summary
                     .current_stock_units
-                )}
-
-              </strong>
+                }
+              />
 
 
               <span>
@@ -745,6 +755,10 @@ export default function DashboardPage() {
                 `stock-available-badge stock-alert-${summary.stock_alert_level}`
               }
             >
+
+              <StockAlertIcon
+                level={summary.stock_alert_level}
+              />
 
               {stockAlertLabel(
                 summary.stock_alert_level
@@ -933,6 +947,12 @@ export default function DashboardPage() {
 
             <div className="projection-info">
 
+              <CalendarClock
+                size={18}
+                aria-hidden="true"
+                className="projection-icon"
+              />
+
               <div>
 
                 <span className="projection-label">
@@ -1017,70 +1037,7 @@ export default function DashboardPage() {
         
         
 
-        <div className="insulin-details">
-
-
-          <div className="insulin-detail-chip">
-
-            <span>
-              Concentração
-            </span>
-
-
-            <strong>
-
-              {Number(
-                insulin
-                  .concentration_units_per_ml
-              ).toLocaleString(
-                "pt-BR",
-                {
-                  maximumFractionDigits:
-                    2,
-                }
-              )}
-
-              {" "}U/mL
-
-            </strong>
-
-          </div>
-
-
-          <div className="insulin-detail-chip">
-
-            <span>
-              Recipiente
-            </span>
-
-
-            <strong>
-
-              {Number(
-                insulin
-                  .container_volume_ml
-              ).toLocaleString(
-                "pt-BR",
-                {
-                  maximumFractionDigits:
-                    2,
-                }
-              )}
-
-              {" "}mL
-
-            </strong>
-
-          </div>
-
-        </div>
-
-
-        
-        
-        
-
-        {insulin.active ? (
+{insulin.active ? (
 
           <div className="card-actions">
 
@@ -1315,19 +1272,7 @@ export default function DashboardPage() {
     loading
   ) {
 
-    return (
-
-      <main className="dashboard dashboard-v2">
-
-        <div className="loading-page">
-
-          Carregando seus dados...
-
-        </div>
-
-      </main>
-
-    );
+    return <DashboardSkeleton />;
 
   }
 
@@ -1467,27 +1412,11 @@ export default function DashboardPage() {
 
           <div>
 
-            <span className="dashboard-eyebrow">
-
-              VISÃO GERAL
-
-            </span>
-
-
             <h2>
 
               Minhas insulinas
 
             </h2>
-
-
-            <p>
-
-              Acompanhe estoque, histórico
-              de aplicações e previsão de
-              duração em um só lugar.
-
-            </p>
 
           </div>
 
@@ -1601,14 +1530,6 @@ export default function DashboardPage() {
 
                 </div>
 
-
-                <p>
-
-                  Insulinas em acompanhamento
-                  atualmente
-
-                </p>
-
               </div>
 
 
@@ -1660,6 +1581,8 @@ export default function DashboardPage() {
 
                   <div>
 
+                    <Archive size={16} aria-hidden="true" />
+
                     <span>
 
                       Insulinas inativas
@@ -1687,7 +1610,7 @@ export default function DashboardPage() {
                     }
                   >
 
-                    ▼
+                    <ChevronDown size={16} aria-hidden="true" />
 
                   </span>
 

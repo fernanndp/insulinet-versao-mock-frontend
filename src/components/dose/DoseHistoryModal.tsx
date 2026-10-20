@@ -3,6 +3,14 @@ import {
   useEffect,
   useState,
 } from "react";
+import {
+  Clock3,
+  History,
+  PackagePlus,
+  SlidersHorizontal,
+  Syringe,
+  Trash2,
+} from "lucide-react";
 
 import EditDoseModal from "./EditDoseModal";
 import EditStockEntryModal from "../stock/EditStockEntryModal";
@@ -159,32 +167,26 @@ function getMovementSign(
   return "";
 }
 
-function getMovementDescription(
-  movement: Movement
-) {
-  switch (
-    movement.movement_type
-  ) {
+function MovementIcon({
+  type,
+}: {
+  type: MovementType;
+}) {
+  switch (type) {
     case "DOSE":
-      return "Aplicação registrada";
+      return <Syringe size={14} aria-hidden="true" />;
 
     case "STOCK_IN":
-      return "Estoque adicionado";
+      return <PackagePlus size={14} aria-hidden="true" />;
 
     case "ADJUSTMENT":
-      return (
-        Number(
-          movement.quantity_units
-        ) >= 0
-          ? "Correção positiva do estoque"
-          : "Correção negativa do estoque"
-      );
+      return <SlidersHorizontal size={14} aria-hidden="true" />;
 
     case "DISCARD":
-      return "Insulina descartada";
+      return <Trash2 size={14} aria-hidden="true" />;
 
     default:
-      return "";
+      return null;
   }
 }
 
@@ -377,11 +379,8 @@ export default function DoseHistoryModal({
         >
           <div className="history-header">
             <div>
-              <span className="history-eyebrow">
-                MOVIMENTAÇÕES
-              </span>
-
               <h2>
+                <History size={20} aria-hidden="true" />
                 Histórico
               </h2>
 
@@ -482,7 +481,7 @@ export default function DoseHistoryModal({
               0 ? (
               <div className="history-empty">
                 <div className="history-empty-icon">
-                  —
+                  <History size={20} aria-hidden="true" />
                 </div>
 
                 <strong>
@@ -523,6 +522,10 @@ export default function DoseHistoryModal({
                                 `movement-type-badge ${movementClass}`
                               }
                             >
+                              <MovementIcon
+                                type={movement.movement_type}
+                              />
+
                               {getMovementLabel(
                                 movement
                                   .movement_type
@@ -560,15 +563,7 @@ export default function DoseHistoryModal({
                         </div>
 
                         <div className="movement-history-meta">
-                          <span>
-                            {getMovementDescription(
-                              movement
-                            )}
-                          </span>
-
-                          <span className="movement-meta-separator">
-                            •
-                          </span>
+                          <Clock3 size={14} aria-hidden="true" />
 
                           <span>
                             {movement

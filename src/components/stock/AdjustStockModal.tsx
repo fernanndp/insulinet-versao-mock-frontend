@@ -6,6 +6,7 @@ import {
 import type {
   FormEvent,
 } from "react";
+import { SlidersHorizontal } from "lucide-react";
 
 import {
   adjustStock,
@@ -239,7 +240,8 @@ export default function AdjustStockModal({
           <div>
 
             <h2>
-              Ajustar estoque
+            <SlidersHorizontal size={20} aria-hidden="true" />
+            Ajustar estoque
             </h2>
 
             <p>

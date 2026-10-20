@@ -7,41 +7,142 @@ form {
 label {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 6px;
 
   font-size: 14px;
-  font-weight: 600;
+  font-weight: var(--fw-bold);
   color: var(--text-primary);
 }
 
-input {
+input,
+select,
+textarea {
   width: 100%;
-  min-height: 46px;
 
-  padding: 12px 14px;
-
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-
-  outline: none;
+  border: 1px solid var(--border-control);
+  border-radius: var(--radius-md);
 
   background: var(--surface);
   color: var(--text-primary);
 
   font-size: 15px;
+  font-weight: var(--fw-regular);
 
   transition:
     border-color 0.15s ease,
     box-shadow 0.15s ease;
 }
 
-input:hover {
-  border-color: var(--border-hover);
+input,
+select {
+  min-height: var(--control-height);
+  padding: 10px 12px;
 }
 
-input:focus {
+textarea {
+  padding: 10px 12px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-tertiary);
+}
+
+input:hover,
+select:hover,
+textarea:hover {
+  border-color: var(--text-secondary);
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
   border-color: var(--color-primary);
-  box-shadow: var(--shadow-focus);
+  box-shadow: var(--focus-ring);
+}
+
+select {
+  padding-right: 36px;
+
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2346453f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+
+  cursor: pointer;
+}
+
+input:disabled,
+select:disabled,
+textarea:disabled {
+  background: var(--paper-50);
+  border-color: var(--border-strong);
+  color: var(--text-tertiary);
+  cursor: not-allowed;
+}
+
+/* Field with a leading icon (and a show/hide toggle for passwords) */
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon input {
+  padding-left: 42px;
+}
+
+.input-with-icon.has-toggle input {
+  padding-right: 48px;
+}
+
+.input-with-icon .input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  color: var(--text-tertiary);
+
+  pointer-events: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.input-with-icon:focus-within .input-icon {
+  color: var(--color-primary);
+}
+
+.input-toggle {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+
+  border: 0;
+  border-radius: var(--radius-sm);
+
+  background: transparent;
+  color: var(--text-tertiary);
+
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out);
+}
+
+.input-toggle:hover {
+  background: var(--paper-100);
+  color: var(--text-primary);
 }
 
 .input-unit-wrapper {
@@ -49,7 +150,7 @@ input:focus {
 }
 
 .input-unit-wrapper input {
-  padding-right: 46px;
+  padding-right: 52px;
 }
 
 .input-unit-wrapper span {
@@ -60,10 +161,12 @@ input:focus {
 
   transform: translateY(-50%);
 
-  color: var(--text-secondary);
+  color: var(--text-tertiary);
 
   font-size: 14px;
-  font-weight: 600;
+  font-weight: var(--fw-bold);
+
+  pointer-events: none;
 }
 
 .form-group {
@@ -74,45 +177,15 @@ input:focus {
 
 .form-label {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: var(--fw-bold);
   color: var(--text-primary);
-}
-
-textarea {
-  width: 100%;
-
-  padding: 12px 14px;
-
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-
-  resize: vertical;
-
-  outline: none;
-
-  font: inherit;
-  color: var(--text-primary);
-  background: var(--surface);
-
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
-}
-
-textarea:hover {
-  border-color: var(--border-hover);
-}
-
-textarea:focus {
-  border-color: var(--color-primary);
-  box-shadow: var(--shadow-focus);
 }
 
 .optional-label {
-  margin-left: 5px;
+  margin-left: 6px;
 
   color: var(--text-tertiary);
 
-  font-size: 12.5px;
-  font-weight: 400;
+  font-size: 13px;
+  font-weight: var(--fw-regular);
 }

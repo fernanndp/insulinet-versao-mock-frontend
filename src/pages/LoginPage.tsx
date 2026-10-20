@@ -1,6 +1,9 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router";
+import { Lock, Mail, Syringe } from "lucide-react";
+
+import IconInput from "../components/ui/IconInput";
 
 import { login } from "../services/authService";
 
@@ -41,7 +44,9 @@ export default function LoginPage() {
     <main className="auth-page">
       <section className="auth-card">
         <div className="brand">
-          <div className="brand-icon">I</div>
+          <div className="brand-icon">
+            <Syringe size={20} aria-hidden="true" />
+          </div>
 
           <div>
             <h1>Insulinet</h1>
@@ -58,7 +63,8 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit}>
           <label>
             E-mail
-            <input
+            <IconInput
+              icon={Mail}
               type="email"
               value={email}
               onChange={(event) =>
@@ -71,7 +77,8 @@ export default function LoginPage() {
 
           <label>
             Senha
-            <input
+            <IconInput
+              icon={Lock}
               type="password"
               value={password}
               onChange={(event) =>

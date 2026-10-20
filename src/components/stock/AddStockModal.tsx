@@ -6,6 +6,7 @@ import {
 import type {
   FormEvent,
 } from "react";
+import { PackagePlus } from "lucide-react";
 
 import {
   addStock,
@@ -228,7 +229,8 @@ export default function AddStockModal({
           <div>
 
             <h2>
-              Adicionar estoque
+            <PackagePlus size={20} aria-hidden="true" />
+            Adicionar estoque
             </h2>
 
             <p>

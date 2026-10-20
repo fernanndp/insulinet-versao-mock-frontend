@@ -6,6 +6,7 @@ import {
 import type {
   FormEvent,
 } from "react";
+import { Settings } from "lucide-react";
 
 import {
   updateInsulin,
@@ -317,7 +318,8 @@ export default function EditInsulinModal({
           <div>
 
             <h2>
-              Gerenciar insulina
+            <Settings size={20} aria-hidden="true" />
+            Gerenciar insulina
             </h2>
 
             <p>

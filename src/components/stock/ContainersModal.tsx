@@ -3,6 +3,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { Layers } from "lucide-react";
 
 import {
   discardContainer,
@@ -332,11 +333,8 @@ export default function ContainersModal({
       >
         <div className="history-header">
           <div>
-            <span className="history-eyebrow">
-              CANETAS E FRASCOS
-            </span>
-
             <h2>
+              <Layers size={20} aria-hidden="true" />
               Estoque individual
             </h2>
 
@@ -387,7 +385,7 @@ export default function ContainersModal({
           ) : containers.length === 0 ? (
             <div className="history-empty">
               <div className="history-empty-icon">
-                —
+                <Layers size={20} aria-hidden="true" />
               </div>
 
               <strong>

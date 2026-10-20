@@ -6,6 +6,7 @@ import {
 import type {
   FormEvent,
 } from "react";
+import { Pencil } from "lucide-react";
 
 import {
   updateStockEntry,
@@ -162,7 +163,8 @@ export default function EditStockEntryModal({
 
           <div>
             <h2>
-              Editar entrada de estoque
+            <Pencil size={20} aria-hidden="true" />
+            Editar entrada de estoque
             </h2>
 
             <p>

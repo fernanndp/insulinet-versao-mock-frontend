@@ -1,6 +1,6 @@
 @media (max-width: 720px) {
   .dashboard-header {
-    padding: 14px 20px;
+    padding: 12px 16px;
   }
 
   .header-user-profile > div {
@@ -14,6 +14,10 @@
   .dashboard-hero {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .dashboard-hero h2 {
+    font-size: 28px;
   }
 
   .add-insulin-main-button {
@@ -30,12 +34,18 @@
   }
 
   .card-primary-action,
-  .full-card-action {
+  .card-actions .history-button {
     grid-column: auto;
   }
 
   .metrics-grid {
     grid-template-columns: 1fr;
+  }
+
+  .metric + .metric {
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid var(--border);
   }
 
   .compact-button {
@@ -44,6 +54,19 @@
 
   .dose-mode-buttons {
     flex-direction: column;
+  }
+
+  .option-button + .option-button {
+    margin-left: 0;
+    margin-top: -1px;
+  }
+
+  .option-button:first-child {
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
+
+  .option-button:last-child {
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
   }
 
   .batch-row {
@@ -71,7 +94,14 @@
 
   .movement-history-summary {
     grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+  }
+
+  .movement-history-summary > div:nth-child(3) {
+    border-left: 0;
+  }
+
+  .movement-history-summary > div:nth-child(n + 3) {
+    border-top: 1px solid var(--border-hover);
   }
 
   .movement-history-top {
@@ -84,6 +114,10 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
+  }
+
+  .stock-value strong {
+    font-size: 36px;
   }
 }
 
@@ -112,23 +146,47 @@
     grid-template-columns: 1fr;
   }
 
+  .uaps-stock-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .uaps-stock-grid > div + div {
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid var(--border);
+  }
+
   .auth-page {
     align-items: flex-start;
     padding: 20px 14px;
   }
 
-  .auth-page::before,
-  .auth-page::after {
-    display: none;
-  }
-
   .auth-card {
     max-width: none;
-    padding: 26px 22px;
+    padding: 28px 22px;
   }
 
   .auth-card > h1,
   .auth-card > h2 {
-    font-size: 22px;
+    font-size: 24px;
+  }
+}
+
+/* Touch devices: small secondary controls grow to a comfortable target */
+@media (pointer: coarse) {
+  .manage-insulin-button,
+  .logout-button,
+  .batch-toolbar-actions button,
+  .history-edit-button,
+  .history-delete-button,
+  .batch-field input {
+    min-height: 44px;
+  }
+
+  .modal-close,
+  .history-close-button,
+  .manage-insulin-button {
+    width: 44px;
+    height: 44px;
   }
 }

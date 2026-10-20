@@ -5,6 +5,9 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router";
+import { Lock } from "lucide-react";
+
+import IconInput from "../components/ui/IconInput";
 
 import { resetPassword } from "../services/authService";
 
@@ -78,7 +81,8 @@ export default function ResetPasswordPage() {
           <form onSubmit={handleSubmit}>
             <label>
               Nova senha
-              <input
+              <IconInput
+                icon={Lock}
                 type="password"
                 value={password}
                 onChange={(event) =>
@@ -91,7 +95,8 @@ export default function ResetPasswordPage() {
 
             <label>
               Confirmar nova senha
-              <input
+              <IconInput
+                icon={Lock}
                 type="password"
                 value={confirmation}
                 onChange={(event) =>

@@ -6,6 +6,7 @@ import {
 import type {
   FormEvent,
 } from "react";
+import { Droplet } from "lucide-react";
 
 import {
   createInsulin,
@@ -258,7 +259,8 @@ export default function AddInsulinModal({
           <div>
 
             <h2>
-              Adicionar insulina
+            <Droplet size={20} aria-hidden="true" />
+            Adicionar insulina
             </h2>
 
             <p>
